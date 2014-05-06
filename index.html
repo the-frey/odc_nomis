@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+<body>
+  <script type="text/javascript">
+    function nomisAjaxRequest(){
+      var self = this;
+
+      this.resolveTypeForRequest = function(datatype_of_request){
+        if((datatype_of_request === 'csv') || (datatype_of_request === 'CSV')){
+          type = ".csv";
+        } else if (datatype_of_request === 'json'){
+          type = ".json";
+        } else {
+          type = '';
+        }
+        return type;
+      };
+
+      this.getDataset = function(dataset_identifier, datatype_of_request){
+        var promise = $.Deferred();
+        var data_type = self.resolveTypeForRequest(datatype_of_request);
+        var url = "http://www.nomisweb.co.uk/api/v01/dataset/" + dataset_identifier + ".data" + data_type;
+        console.log('Sending AJAX request to: ' + url);
+        $.ajax({
+          url: url,
+          method: 'GET',
+          type: 'json',
+          beforeSend: function(xhr){
+            $('body').html('Loading data...');
+          },
+          success: function(response){
+            promise.resolve(response);
+          },
+          error: function(message){
+            promise.reject(message);
+          }
+        });
+        return promise;
+      };
+
+      this.successful = function(response){
+        $('body').html('');
+        $('body').append(JSON.stringify(response));
+      };
+
+      this.unsuccessful = function(message){
+        var error_message = $('<p></p>');
+        error_message.text(message.statusText);
+        $('body').html('');
+        $('body').append(error_message);
+      };
+    };
+
+    $(document).ready(function(){
+      var default_data_set = "NM_618_1";
+      var new_request = new nomisAjaxRequest();
+      new_request.getDataset(default_data_set, 'json').then(new_request.successful, new_request.unsuccessful);
+    });
+  </script>
+</body>
+</html>
