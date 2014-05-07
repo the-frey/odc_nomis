@@ -23,14 +23,16 @@
       this.getDataset = function(dataset_identifier, datatype_of_request){
         var promise = $.Deferred();
         var data_type = self.resolveTypeForRequest(datatype_of_request);
-        var url = "http://www.nomisweb.co.uk/api/v01/dataset/" + dataset_identifier + ".data" + data_type;
+        var url = "http://www.nomisweb.co.uk/api/v01/dataset/" + dataset_identifier + "/geography/2092957703TYPE274.def.sdmx" + data_type;
         console.log('Sending AJAX request to: ' + url);
         $.ajax({
           url: url,
           method: 'GET',
           type: 'json',
           beforeSend: function(xhr){
-            $('body').html('Loading data...');
+            var img = $("<img src='./images/magicword.gif' />");
+            var loading_text = $('<p>Loading data...</p>');
+            $('body').append(img).append(loading_text);
           },
           success: function(response){
             promise.resolve(response);
