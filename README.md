@@ -14,6 +14,16 @@ This is a proof-of-concept for integrating data from the NOMIS API with data fro
 2. AJAX Example [here](http://www.nomisweb.co.uk/websvc/examples/ajax_json.htm). Click 'view source' to see developer comments on the querying steps taken to return results.
 3. The html page for the dataset we're interested in is [here](https://www.nomisweb.co.uk/api/v01/dataset/NM_618_1/def.htm).
 
+## API URI builder Info
+
+Registered users of Nomis can use the Advanced Query to select the required data, on the "format / layout" page there is an option to "View API links".
+
+Your Nomis query selections will be converted to API links in a variety of formats.
+
+You will be given the option to remove columns you don't need, change their order and see how the data will look with a live preview table.
+
+Note: To enable this feature, visit the "my account" section of the web site and click "Nomis API", then tick the "Enable API Tools" checkbox.
+
 ### Examples pinched directly from NOMIS documentation: 
 
 #### Example (XML):
